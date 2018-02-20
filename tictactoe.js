@@ -3,7 +3,8 @@ var nextPlayer = "O";
 var player="Strawberry"
 var playerXWins=0;
 var playerOWins=0;
-
+var draw=0;
+var cellClicked=[0,0,0,0,0,0,0,0,0];
 var playerXSelections = new Array();
 var playerOSelections = new Array();
 const winningCombinations = [
@@ -16,17 +17,15 @@ const winningCombinations = [
     [1, 5, 9],
     [3, 5, 7]
   ]
-  document.getElementById("p1").textContent="Strawberry's wins : "+playerXWins;
-  document.getElementById("p2").textContent="Orange's wins : "+playerOWins;
+  document.getElementById("p1").textContent="Strawberry won : "+playerXWins;
+  document.getElementById("p2").textContent="Orange won : "+playerOWins;
   document.getElementById("p3").textContent=player+"'s turn";
-
+  document.getElementById("p4").textContent="Draw : "+draw;
+ 
   handleClick = function(event) {
     var cell = event.target
-    console.log(cell.textContent);
-    if (cell.textContent==""){
-        console.log(cell.id);
-        // cell.innerHTML = currentPlayer;
-        // document.getElementById(cell.id).setAttribute("style","background-image:url('orange.png')");
+    cellClicked[parseInt(cell.id)-1]+=1;
+    if (cellClicked[parseInt(cell.id)-1]==1){
         if(currentPlayer == "X" ) {
           document.getElementById(cell.id).setAttribute("style","background-image:url('strawberry.png');background-repeat:no-repeat");
           playerSelections = playerXSelections;
@@ -41,11 +40,10 @@ const winningCombinations = [
         playerSelections.push(parseInt(cell.id));
     } 
     else{
-      alert("Select a different cell")
+      alert("Select a different Cell")
     }
     if (checkWinner())
     {
-    
       if (currentPlayer=="X")
       {
         alert("Strawberry"+ " Won");
@@ -58,22 +56,40 @@ const winningCombinations = [
       }  
       playerXSelections = new Array();
       playerOSelections = new Array();
+      cellClicked=[0,0,0,0,0,0,0,0,0];
       var cells=document.querySelectorAll("td");
       for(var i = 0; i < cells.length; i++) {
-        //cells[i].innerHTML= "";
-        document.getElementById(cells[i].id).setAttribute("style","background-image:none");
+         document.getElementById(cells[i].id).setAttribute("style","background-image:none");
       }  
       currentPlayer = "X";
       nextPlayer = "O";  
-      document.getElementById("p1").textContent="Strawberry's wins : "+playerXWins;
-      document.getElementById("p2").textContent="Orange's wins : "+playerOWins;
+      document.getElementById("p1").textContent="Strawberry won : "+playerXWins;
+      document.getElementById("p2").textContent="Orange won : "+playerOWins;
       document.getElementById("p3").textContent=player+"'s turn";
     }
     else{
-     // Swap players
+      console.log(playerSelections.length);
+      
+      if (playerSelections.length==5)
+        {
+          alert("Draw");
+          draw+=1;
+          document.getElementById("p4").textContent="Draw : "+draw;
+          playerXSelections = new Array();
+          playerOSelections = new Array();
+          cellClicked=[0,0,0,0,0,0,0,0,0];
+          var cells=document.querySelectorAll("td");
+          for(var i = 0; i < cells.length; i++) {
+            //cells[i].innerHTML= "";
+            document.getElementById(cells[i].id).setAttribute("style","background-image:none");
+          }  
+          currentPlayer = "X";
+          nextPlayer = "O"; 
+        }
+      // Swap players
       currentPlayer = nextPlayer;
-      document.getElementById("p1").textContent="Strawberry's wins : "+playerXWins;
-      document.getElementById("p2").textContent="Orange's wins : "+playerOWins;
+      document.getElementById("p1").textContent="Strawberry won : "+playerXWins;
+      document.getElementById("p2").textContent="Orange won : "+playerOWins;
       document.getElementById("p3").textContent=player+"'s turn";
     }
   }
