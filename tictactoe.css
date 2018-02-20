@@ -1,5 +1,12 @@
+body{
+  width:800px;
+  margin:0 auto;
+}
 td {
     border: 1px solid blue;
+    width:66px;
+    height:66px;
+    text-align: center;
   }
   
   td:hover {
@@ -8,4 +15,13 @@ td {
   
   table {
     border: 1px solid green;
+    width:198px;
+    height:198px;
+  }
+
+  #p1{
+    color: coral;
+  }
+  #p2{
+    color: darkgreen;
   }
